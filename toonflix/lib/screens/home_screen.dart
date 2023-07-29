@@ -1,10 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:toonflix/models/webtoon_model.dart';
+import 'package:toonflix/services/api_service.dart';
 
-class HmoeScreen extends StatelessWidget {
+class HmoeScreen extends StatefulWidget {
   const HmoeScreen({super.key});
 
   @override
+  State<HmoeScreen> createState() => _HmoeScreenState();
+}
+
+class _HmoeScreenState extends State<HmoeScreen> {
+  List<WebtoonModel> webtoons = [];
+  bool isLoading = true;
+
+  void waitForWebToons() async {
+    webtoons = await ApiService.getTodaysToons();
+    isLoading = false;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    waitForWebToons();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print(webtoons);
+    print(isLoading);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
